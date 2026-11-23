@@ -46,6 +46,8 @@ test have not been run in this form; the plugin registers and the scripts parse.
 
 One thing differs from the project's own copy: `chat_open` reads the chat strip from the screen instead
 of taking cua captures. A capture takes about 1 s, which aliases with the 0.6 s caret blink, so the
-capture-based watch misread an open input about one time in three. `skill/maple-client/SKILL.md` and `tools/checks/README.md` are copied from the project and describe
+capture-based watch sometimes misread an open input as closed (it failed two take runs in a row here).
+
+`skill/maple-client/SKILL.md` and `tools/checks/README.md` are copied from the project and describe
 the original single-file layout (`tools/cua/.venv`, `tools/checks/check.py`), plus project plan references
 that mean nothing outside it.
