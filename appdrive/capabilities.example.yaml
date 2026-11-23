@@ -1,0 +1,56 @@
+# cua-driver capability manifest: a deny-by-default ceiling for scripted or agent-driven computer use.
+# The driver may only observe and drive the apps listed here and write files under the listed folders.
+# Use absolute paths. Point appdrive.toml's `manifest` (or an MCP server's
+# CUA_DRIVER_CAPABILITY_MANIFEST_FILE) at your copy.
+version: 3
+
+resources:
+  apps:
+    - executable: 'C:\Path\To\YourApp.exe'
+      launch: false        # start the app yourself; true lets the driver launch it
+      windows: all
+      terminate: deny
+  # Needed by list_windows to locate the window.
+  desktop:
+    display: true
+  files:
+    write:
+      - dir: 'C:\Path\To\evidence'
+        recursive: true
+
+allow:
+  tools:
+    - start_session
+    - end_session
+    - get_session
+    - list_sessions
+    - health_report
+    - check_permissions
+    - get_config
+    - list_apps
+    - list_windows
+    - debug_window_info
+    - get_accessibility_tree
+    - get_window_state
+    # OCR + icon regions (cua-perception extension, installed separately).
+    - parse_visual_regions
+    - get_screen_size
+    - get_cursor_position
+    - zoom
+    - verify_state
+    - bring_to_front
+    - set_window_frame
+    - click
+    - double_click
+    - right_click
+    - drag
+    - scroll
+    - press_key
+    - hotkey
+    - type_text
+    - move_cursor
+    - get_agent_cursor_state
+    - set_agent_cursor_enabled
+    - start_recording
+    - stop_recording
+    - get_recording_state

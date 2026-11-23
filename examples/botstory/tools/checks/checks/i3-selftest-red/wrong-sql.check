@@ -1,0 +1,4 @@
+# id: I3.1-red-sql
+# title: Deliberately wrong: expects TestGm to be a non-GM
+# needs: headless
+expectsql SELECT gm FROM characters WHERE name = 'TestGm' LIMIT 1 == 0 within 2

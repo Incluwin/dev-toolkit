@@ -1,0 +1,4 @@
+# id: I3.1-red-log
+# title: Deliberately wrong: expects a log line no server writes
+# needs: headless
+expectlog THIS LINE IS NEVER LOGGED within 3

@@ -1,0 +1,9 @@
+# Copy to appdrive.toml next to where you run `python -m appdrive`.
+manifest = "capabilities.yaml"      # copy of capabilities.example.yaml with your app's exe path
+evidence = "evidence"               # captures land in evidence/<timestamp>/
+click_delivery = "foreground"       # games; ordinary desktop apps can use "background"
+# log_file = "logs/app.log"         # enables the take step `expectlog <regex>`
+
+[window]
+app_name = "notepad.exe"            # any of: app_name, title, title_prefix, pid
+# title = "My Game"

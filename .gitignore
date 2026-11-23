@@ -1,0 +1,13 @@
+__pycache__/
+*.egg-info/
+.venv/
+evidence/
+*.local.txt
+appdrive.toml
+capabilities.yaml
+maple-capabilities.yaml
+.stack/
+reports/
+*.capture.json
+*.mp4
+suite.lock

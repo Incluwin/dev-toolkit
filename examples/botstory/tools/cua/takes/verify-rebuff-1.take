@@ -1,0 +1,9 @@
+# Verify (not recorded): ProbeBish buffs land on {me}.
+warp 104040000 140
+darksight {me}
+party {me} 0
+offline ProbeBish
+say !spawnbot ProbeBish
+online ProbeBish
+party {me} 2
+wait 14

@@ -1,0 +1,27 @@
+# id: N1-P1
+# title: Force an issue; every section (Arena, Records, Town, Market) prints, and exactly one living_paper row is kept
+# needs: headless
+# source: WORLD_SYSTEMS_PLAN.md N1 live check P1 (the board half is P1b-board.check)
+# setup: the check stack's config.yaml has population.PAPER_ENABLED: true
+online TestGm
+# One row per section, dated the Saturday before the last Sunday 00:00 UTC (the issue's window is the 7 days before it).
+sql DELETE FROM living_paper
+sql INSERT INTO living_event_log (character_id, kind, detail, at) VALUES (NULL, 'paper.item', '{"k":"town.wedding","w":70,"s":{"name":"TestGm","partner":"TestFriend"}}', DATE_SUB(DATE_SUB(UTC_DATE(), INTERVAL DAYOFWEEK(UTC_DATE()) - 1 DAY), INTERVAL 12 HOUR))
+sql INSERT INTO living_clear (quest, cleared_at, duration_ms, kind, members) VALUES ('KerningPQ', DATE_SUB(DATE_SUB(UTC_DATE(), INTERVAL DAYOFWEEK(UTC_DATE()) - 1 DAY), INTERVAL 12 HOUR), 61000, 'HUMAN', '1:H:TestGm')
+sql INSERT INTO economy_cpi_daily (day, item_id, price, source, samples) VALUES (DATE_SUB(DATE_SUB(UTC_DATE(), INTERVAL DAYOFWEEK(UTC_DATE()) - 1 DAY), INTERVAL 8 DAY), 4011000, 1000, 'INDEX', 1), (DATE_SUB(DATE_SUB(UTC_DATE(), INTERVAL DAYOFWEEK(UTC_DATE()) - 1 DAY), INTERVAL 1 DAY), 4011000, 1500, 'INDEX', 1) ON DUPLICATE KEY UPDATE price = VALUES(price)
+sql INSERT INTO pvp_tournament (bracket, week_of, state, champion_id, runner_up_id) VALUES ('VETERAN', DATEDIFF(DATE_SUB(DATE_SUB(UTC_DATE(), INTERVAL DAYOFWEEK(UTC_DATE()) - 1 DAY), INTERVAL 6 DAY), '1970-01-01'), 'DONE', 1, 2) ON DUPLICATE KEY UPDATE state = 'DONE', champion_id = 1, runner_up_id = 2
+sql INSERT IGNORE INTO pvp_tournament_seat (tournament_id, character_id, name, human) SELECT id, 1, 'TestGm', 1 FROM pvp_tournament WHERE bracket = 'VETERAN' ORDER BY week_of DESC LIMIT 1
+sql INSERT IGNORE INTO pvp_tournament_seat (tournament_id, character_id, name, human) SELECT id, 2, 'TestFriend', 1 FROM pvp_tournament WHERE bracket = 'VETERAN' ORDER BY week_of DESC LIMIT 1
+queue TestGm !paper issue
+expectgm is issued within 30
+expectgm == Arena == within 10
+expectgm == Records == within 10
+expectgm == Town == within 10
+expectgm == Market == within 10
+expectgm TestGm and TestFriend|TestFriend and TestGm within 10
+expectsql SELECT COUNT(*) FROM living_paper LIMIT 1 == 1
+# A second !paper issue writes nothing (the unique week_of).
+queue TestGm !paper issue
+expectgm is issued within 30
+expectsql SELECT COUNT(*) FROM living_paper LIMIT 1 == 1
+expectsql SELECT body FROM living_paper ORDER BY week_of DESC LIMIT 1 contains town.wedding

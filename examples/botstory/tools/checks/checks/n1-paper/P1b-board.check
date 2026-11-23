@@ -1,0 +1,22 @@
+# id: N1-P1b
+# title: The Bulletin Board's "The paper" shows this week's issue (one page a section) and last week's
+# needs: client
+# why-client: the board is an NPC window, read by clicking through its pages
+# source: WORLD_SYSTEMS_PLAN.md N1 live check P1
+# setup: P1-issue.check ran first (an issue exists); PAPER_ENABLED: true; NEEDS_ENABLED spawns the boards
+login --character TestGm
+say !warp 100000000
+clicktext Bulletin Board
+clicktext The paper
+shot p1b-paper-menu
+clicktext This week's paper
+shot p1b-page-arena
+dialog next
+shot p1b-page-records
+dialog next
+shot p1b-page-town
+dialog next
+shot p1b-page-market
+dialog ok
+# Reading it marked it seen: the letters will not send its note (P3).
+expectsql SELECT COUNT(*) FROM living_event_log e JOIN characters c ON c.id = e.character_id WHERE c.name = 'TestGm' AND e.kind = 'letters.paper' LIMIT 1 >= 1 within 20

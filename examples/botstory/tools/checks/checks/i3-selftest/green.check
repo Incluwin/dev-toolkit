@@ -1,0 +1,16 @@
+# id: I3.1-green
+# title: Headless GM command through the check stack, read back by expectadmin and expectsql
+# needs: headless
+# source: WORLD_SYSTEMS_PLAN.md I3.1 done-test
+online TestGm
+queue TestGm !warp 180000000
+expectadmin positions positions[?name=TestGm].map == 180000000 within 20
+gm TestGm pvp
+expectgm Usage: !pvp probe
+queue TestGm !warp 100000000
+expectadmin positions positions[?name=TestGm].map == 100000000 within 20
+expectadmin online/summary worlds[0].total >= 1
+expectsql SELECT gm FROM characters WHERE name = 'TestGm' LIMIT 1 == 6
+expectsql SELECT COUNT(*) FROM accounts WHERE name IN ('testaccount2', 'testaccount1') LIMIT 1 == 2
+expectlog INFO|WARN within 30
+queue TestGm !warp 180000000

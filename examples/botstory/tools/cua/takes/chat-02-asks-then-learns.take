@@ -1,0 +1,53 @@
+# Chat 02: unsure -> it asks; the answer teaches it. ProbePala, party of two, filmed from {me}.
+# Before each take: tools/cua/takes/forget-demo-phrases.sh (the learned phrase must not exist yet).
+warp 104040000 140
+darksight {me}
+party {me} 0
+offline ProbePala
+say !spawnbot ProbePala
+online ProbePala
+party {me} 2
+wait 8
+park
+record FriendServer/BotStory Server/docs/agents/evidence/video/2026-09-26/raw/chat-02-asks-then-learns.mp4
+wait 1
+cut
+caption 6 When it isn't sure what the player means, it asks - and the answer teaches it
+wait 2
+say see all those snails? go clear em out
+expectlog ACT \[grind\]
+park
+follow ProbePala 8
+say ok that's plenty, ease off
+expectlog ASK \[stop\]
+park
+caption 5 "ease off" is ambiguous, so it asks instead of guessing
+wait 3
+say yea
+expectlog learned .* -> stop \(PLAYER
+park
+caption 5 "yea" - it stops and remembers what that phrase meant
+wait 4
+say alright, head back over to me
+expectlog ASK \[follow me\]
+park
+caption 4 Unsure again - it asks
+wait 3
+say nah
+park
+caption 4 "nah" - it drops the suggestion
+wait 3
+say see all those snails? go clear em out
+expectlog ACT \[grind\].*\n(.*\n)*.*ACT \[grind\]
+park
+follow ProbePala 8
+say ok that's plenty, ease off
+expectlog \[phrase\] message="ok that's plenty, ease off" -> stop
+park
+caption 6 Same phrase again - no question this time: it learned what the player meant
+wait 5
+stop
+# Teardown (not recorded): sign off, dissolve the two-person party.
+signoff ProbePala
+say !leaveparty
+party {me} 0

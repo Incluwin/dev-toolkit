@@ -1,0 +1,8 @@
+# id: N1-P5b
+# title: After a restart in the issue hour the week's issue is not composed again
+# needs: headless
+# source: WORLD_SYSTEMS_PLAN.md N1 live check P5
+# setup: P5a-issue-hour.check passed, then the stack was restarted (same day, no -Reseed)
+wait 120
+rejectbootlog paper: week [0-9]+ issued
+expectsql SELECT COUNT(*) FROM living_paper WHERE week_of = DATEDIFF(DATE_SUB(UTC_DATE(), INTERVAL WEEKDAY(UTC_DATE()) DAY), '1970-01-01') LIMIT 1 == 1

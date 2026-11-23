@@ -1,0 +1,50 @@
+# Rehearsal (not recorded): which natural lines ACT, which ASK. Read [typesafe-chat] in cosmic-log.log.
+say !warp 104040000
+map {me} 104040000
+hide {me}
+party {me} 0
+offline ProbePala
+say !spawnbot ProbePala
+online ProbePala
+party {me} 2
+wait 6
+say hey stick with me for a bit
+wait 4
+say wait here a sec
+wait 4
+say come over here
+wait 4
+say see all those snails? go clear em out
+wait 8
+say alright, stop fighting for now
+wait 4
+say just hold this spot and smack anything that comes close
+wait 6
+say what level r u now?
+wait 4
+say can u farm around here pls
+wait 4
+say nah
+wait 3
+say mind boosting my reputation a bit?
+wait 4
+say no
+wait 3
+say ease off
+wait 4
+say no
+wait 3
+say turn off your buffs for now
+wait 4
+say ok buff me again pls
+wait 4
+say got anything that would be an upgrade for me?
+wait 5
+say what gear do u want from me?
+wait 5
+say logout
+wait 2
+say yes
+offline ProbePala
+say !leaveparty
+party {me} 0

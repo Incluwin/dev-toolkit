@@ -1,0 +1,14 @@
+# id: N1-P2
+# title: A test account wins a tournament bout; this week's paper names it in Arena
+# needs: client
+# why-client: the bouts are fought in the client (the GM's seat in a forced 2-seat Rookie/Veteran tournament)
+# source: WORLD_SYSTEMS_PLAN.md N1 live check P2; docs/PVP_PLAN.md V5 (!pvp tournament start)
+login --character TestGm
+online TestGm
+queue TestGm !pvp tournament start VETERAN 2 1 me
+# Fight the bout in the client until Cesar names a champion; then the week's tournament row is DONE.
+shot p2-bout
+expectsql SELECT COUNT(*) FROM pvp_tournament WHERE state = 'DONE' AND champion_id = (SELECT id FROM characters WHERE name = 'TestGm') LIMIT 1 >= 1 within 900
+queue TestGm !paper current
+expectgm == Arena == within 30
+expectgm TestGm within 10

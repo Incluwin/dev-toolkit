@@ -1,0 +1,17 @@
+# id: N1-P3
+# title: Log in after an issue: one "paper is out" note from Paperboy; log in again: no second note
+# needs: client
+# why-client: the letters digest runs on a real login after a logout, and the note is read in the memo window
+# source: WORLD_SYSTEMS_PLAN.md N1 live check P3
+# setup: an issue under a week old exists (P1-issue.check) and TestGm has not read it (no letters.paper row)
+sql DELETE e FROM living_event_log e JOIN characters c ON c.id = e.character_id WHERE c.name = 'TestGm' AND e.kind = 'letters.paper'
+login --character TestGm
+wait 15
+shot p3-first-login-notes
+expectsql SELECT COUNT(*) FROM notes WHERE `to` = 'TestGm' AND `from` = 'Paperboy' LIMIT 1 == 1 within 30
+expectsql SELECT COUNT(*) FROM living_event_log e JOIN characters c ON c.id = e.character_id WHERE c.name = 'TestGm' AND e.kind = 'letters.paper' LIMIT 1 == 1
+# Log out to the login screen and back in.
+login --character TestGm
+wait 15
+expectsql SELECT COUNT(*) FROM notes WHERE `to` = 'TestGm' AND `from` = 'Paperboy' LIMIT 1 == 1
+expectsql SELECT COUNT(*) FROM living_event_log e JOIN characters c ON c.id = e.character_id WHERE c.name = 'TestGm' AND e.kind = 'letters.paper' LIMIT 1 == 1

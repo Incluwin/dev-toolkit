@@ -1,0 +1,4 @@
+{
+  "core": "com/example/core/**/*Test.java,com/example/core/**/Test*.java,com/example/core/**/*Tests.java,com/example/core/**/*TestCase.java,!**/*$*",
+  "rest": "**/*Test.java,**/Test*.java,**/*Tests.java,**/*TestCase.java,!com/example/core/**,!**/*$*"
+}

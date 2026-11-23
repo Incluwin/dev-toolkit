@@ -1,0 +1,15 @@
+# id: N1-P4
+# title: On issue day a citizen in town says one of the issue's top headlines, unprompted
+# needs: client
+# why-client: citizens say headlines only where a player stands to hear them, and the headless operator is a BotClient
+#   that AgentPresence counts as a bot (run headless on 2026-11-22: 15 min in Henesys, idle lines, no headline, as designed)
+# source: WORLD_SYSTEMS_PLAN.md N1 live check P4 (and "done when": a citizen mentions a headline unprompted)
+# setup: run on the issue's first day (within 24 h of Sunday 00:00 GMT) after P1-issue.check, or force one first
+login --character TestGm
+online TestGm
+queue TestGm !paper issue
+expectgm is issued within 30
+say !warp 100000000
+# Dwelling citizens roll an idle line every 20 s; on Henesys's busy square one says a headline within minutes.
+expectadmin citizens chatter ~ (?i)paper|board within 900
+shot p4-headline

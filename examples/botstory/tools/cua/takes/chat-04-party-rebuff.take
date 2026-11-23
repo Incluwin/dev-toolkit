@@ -1,0 +1,47 @@
+# Chat 04: party-wide rebuff. ProbeBish (Bishop) and ProbeHero (Hero) hunt apart; a free-form
+# "everyone come get buffed" (Jev -> "gather up for buffs") walks the party together and the Bishop
+# rebuffs everyone in range. A party of three: the test needs more than one member to reach.
+# Setup (not recorded): floor start point, Dark Sight up, no party, bots offline; film.sh forgets the
+# learned phrase first so Jev reads it fresh.
+warp 104040000 140
+darksight {me}
+party {me} 0
+offline ProbeBish
+offline ProbeHero
+park
+record FriendServer/BotStory Server/docs/agents/evidence/video/2026-09-26/raw/chat-04-party-rebuff.mp4
+wait 1
+say !spawnbot ProbeBish
+online ProbeBish
+say !spawnbot ProbeHero
+online ProbeHero
+party {me} 3
+cut
+caption 6 A party of three: a Bishop, a Hero and the camera character
+park
+wait 6
+say see all those snails? go clear em out
+expectlog (ACT \[grind\]|-> grind)
+park
+caption 6 They split up to hunt, out of range of each other's party buffs
+apart ProbeBish 350 230 40
+apart ProbeHero 350 230 40
+wait 2
+say everyone come get buffed
+expectlog ACT \[gather up for buffs\]
+park
+caption 8 "everyone come get buffed" - the party walks over, and the Bishop recasts its party buffs once everyone is in range
+freshbuff {me} 2311003 15
+freshbuff ProbeHero 2311003 15
+freshbuff ProbeBish 2311003 15
+wait 4
+say see all those snails? go clear em out
+expectlog gather up for buffs\][^\n]*\n(.*\n)*.*(ACT \[grind\]|-> grind)
+park
+caption 5 ...then back to hunting
+wait 7
+stop
+# Teardown (not recorded): one logout + yes signs off both bots, then dissolve the party.
+signoff ProbeHero ProbeBish
+say !leaveparty
+party {me} 0

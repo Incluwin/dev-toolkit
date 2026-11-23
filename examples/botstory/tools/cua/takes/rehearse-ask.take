@@ -1,0 +1,48 @@
+# Rehearsal (not recorded): find natural lines that land in the ASK band (0.45-0.75).
+say !warp 104040000
+map {me} 104040000
+hide {me}
+party {me} 0
+offline ProbePala
+say !spawnbot ProbePala
+online ProbePala
+party {me} 2
+wait 6
+say stop attacking
+wait 4
+say no
+wait 3
+say ok that's plenty, ease off
+wait 4
+say no
+wait 3
+say alright, head back over to me
+wait 4
+say no
+wait 3
+say yeah, bump my reputation up pls
+wait 4
+say no
+wait 3
+say chill for a bit
+wait 4
+say no
+wait 3
+say take it easy for a sec
+wait 4
+say no
+wait 3
+say lemme get a fame
+wait 4
+say no
+wait 3
+say go do your thing
+wait 4
+say no
+wait 3
+say logout
+wait 2
+say yes
+offline ProbePala
+say !leaveparty
+party {me} 0

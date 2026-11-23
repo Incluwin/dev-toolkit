@@ -1,0 +1,18 @@
+# Public-client smoke, client half: walk three towns (WORLD_SYSTEMS_PLAN I4.1). Not a filming take.
+# Run by tools\release\public-smoke-client.ps1 after login, the Resident menu and the Crew window; the GM is the
+# fresh database's Admin (admin/admin), in Henesys. Only stack-neutral verbs: map/warp/expectlog read the live
+# server's admin port and log, so the server-side check is public-smoke.ps1 -Phase check afterwards.
+say !warp 101000000
+wait 5
+hold right 1500
+wait 2
+say !warp 102000000
+wait 5
+hold left 1500
+wait 2
+say !warp 103000000
+wait 5
+hold right 1500
+wait 2
+say !warp 100000000
+wait 5

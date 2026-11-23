@@ -1,0 +1,5 @@
+{
+  "capabilities": "server/agents/capabilities/**/*Test.java,server/agents/capabilities/**/Test*.java,server/agents/capabilities/**/*Tests.java,server/agents/capabilities/**/*TestCase.java,!**/*$*",
+  "agents": "server/agents/**/*Test.java,server/agents/**/Test*.java,server/agents/**/*Tests.java,server/agents/**/*TestCase.java,!server/agents/capabilities/**,!**/*$*",
+  "rest": "**/*Test.java,**/Test*.java,**/*Tests.java,**/*TestCase.java,!server/agents/**,!**/*$*"
+}

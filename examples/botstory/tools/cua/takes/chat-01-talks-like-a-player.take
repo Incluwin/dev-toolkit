@@ -1,0 +1,54 @@
+# Chat 01: plain natural chat, no command words. ProbePala (Paladin), party of two, filmed from {me}.
+warp 104040000 140
+darksight {me}
+party {me} 0
+offline ProbePala
+say !spawnbot ProbePala
+online ProbePala
+party {me} 2
+wait 8
+park
+record FriendServer/BotStory Server/docs/agents/evidence/video/2026-09-26/raw/chat-01-talks-like-a-player.mp4
+wait 1
+cut
+caption 6 Plain chat, no command words: the Paladin works out what the player means
+wait 3
+say hey stick with me for a bit
+expectlog -> follow me
+park
+caption 4 "stick with me" - it follows
+hold left 2500
+wait 1
+say wait here a sec
+expectlog -> stop
+park
+caption 4 "wait here a sec" - it stays put
+hold right 1800
+wait 2
+say come over here
+park
+caption 4 "come over here" - it walks over
+wait 4
+say see all those snails? go clear em out
+expectlog ACT \[grind\]
+park
+caption 5 "go clear em out" - it starts hunting
+follow ProbePala 12
+say take it easy for a sec
+expectlog ACT \[stop\]
+park
+caption 4 "take it easy" - it stops
+wait 3
+say just hold this spot and smack anything that comes close
+park
+caption 6 "hold this spot" - it guards the spot and fights whatever comes close
+wait 6
+say what level r u now?
+park
+caption 4 A question gets a straight answer
+wait 5
+stop
+# Teardown (not recorded): sign off, dissolve the two-person party.
+signoff ProbePala
+say !leaveparty
+party {me} 0

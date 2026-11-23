@@ -1,0 +1,7 @@
+# Verify (not recorded): buffs off, then 'buff me again' must recast now.
+say turn off your buffs for now
+expectlog -> support off
+wait 3
+say ok buff me again pls
+expectlog -> support on
+wait 10

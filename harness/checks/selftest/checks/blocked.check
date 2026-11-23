@@ -1,0 +1,4 @@
+# id: S4
+# title: Waits for a feature
+# needs: blocked
+# why-blocked: the endpoint does not exist yet

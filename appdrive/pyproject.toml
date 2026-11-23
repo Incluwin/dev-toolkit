@@ -1,0 +1,22 @@
+[project]
+name = "appdrive"
+version = "0.1.0"
+description = "Drive a Windows app window through cua-driver: capture, OCR, input, takes, recording, model playtests"
+requires-python = ">=3.11"
+dependencies = ["cua-driver>=0.30", "pillow"]
+
+[project.optional-dependencies]
+play = ["typesafe-sdk>=0.7"]
+
+[project.scripts]
+appdrive = "appdrive.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["appdrive"]
+
+[tool.setuptools.package-data]
+appdrive = ["record-window.ps1"]

@@ -1,0 +1,5 @@
+# id: I3.1-red-admin
+# title: Deliberately wrong: expects TestGm on a map it is not on
+# needs: headless
+online TestGm
+expectadmin positions positions[?name=TestGm].map == 999999999 within 3

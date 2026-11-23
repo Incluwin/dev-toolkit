@@ -1,0 +1,3 @@
+signoff ProbeBish
+say !leaveparty
+party {me} 0

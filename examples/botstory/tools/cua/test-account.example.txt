@@ -1,0 +1,5 @@
+# Copy to test-account.local.txt (git-ignored) and pass it with: maple_client.py login --account-file <file>
+# The v83 login box takes at most 12 characters for each field.
+account=<login id>
+password=<password>
+character=<character name>

@@ -1,0 +1,15 @@
+# id: S1
+# title: Create two items and read them back
+expecthttp /status state == up
+expecthttp /status version[-1] == 3
+expecthttp /status version.# == 3
+expecthttp /status missing.key missing
+post /items {"name": "first", "qty": 2}
+post /items {"name": "second", "qty": 5}
+expecthttp /items items.# == 2 within 5
+expecthttp /items items[?name=second].qty >= 5
+expecthttp /items =sum(i["qty"]for(i)in(r["items"])) == 7
+expectlog POST /items
+expectbootlog boot complete
+rejectbootlog ERROR|Exception
+rejectlog ERROR for 2

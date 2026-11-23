@@ -1,0 +1,44 @@
+# Chat 03: a helpful party member. ProbeBish (Bishop), party of two, filmed from {me}.
+warp 104040000 140
+darksight {me}
+party {me} 0
+offline ProbeBish
+park
+record FriendServer/BotStory Server/docs/agents/evidence/video/2026-09-26/raw/chat-03-helpful-companion.mp4
+wait 1
+say !spawnbot ProbeBish
+cut
+caption 6 A Bishop joins as a party of two - its buffs land on the camera character
+park
+online ProbeBish
+party {me} 2
+wait 8
+say lemme get a fame
+expectlog ACT \[fame me\]
+park
+caption 4 "lemme get a fame" - it fames the player
+wait 4
+say got anything that would be an upgrade for me?
+park
+caption 5 It checks its bag for gear that would help the player
+wait 5
+say what gear do u want from me?
+park
+caption 5 ...and says what it would like in return
+wait 5
+say turn off your buffs for now
+expectlog -> support off
+park
+caption 4 Buffs off on request
+wait 4
+say ok buff me again pls
+expectlog -> support on
+park
+caption 5 ...and back on: it recasts its buffs right away
+freshbuff {me} 2311003 15
+wait 4
+stop
+# Teardown (not recorded): sign off, dissolve the two-person party.
+signoff ProbeBish
+say !leaveparty
+party {me} 0

@@ -1,0 +1,3 @@
+# id: S2
+# title: A failing expectation (kept to show what a FAIL looks like)
+expecthttp /status state == down within 1

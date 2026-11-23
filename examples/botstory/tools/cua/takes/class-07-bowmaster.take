@@ -1,0 +1,27 @@
+# Class showcase 07: ProbeBM grinds Henesys Hunting Ground I, filmed from {me} (Shadower in Dark Sight).
+# Setup (not recorded): floor start point, Dark Sight up, no party, bot offline.
+warp 104040000 140
+darksight {me}
+party {me} 0
+offline ProbeBM
+park
+record FriendServer/BotStory Server/docs/agents/evidence/video/2026-09-26/raw/class-07-bowmaster.mp4
+wait 1
+say !spawnbot ProbeBM showcase
+cut
+caption 5 Bowmaster, Lv 121 (Bowman) - grinding Henesys Hunting Ground I
+park
+online ProbeBM
+party {me} 2
+wait 1
+caption 6 Party of two: its party buffs land on the camera character, a Shadower hiding in Dark Sight
+wait 5
+say grind
+park
+caption 7 Showcase mode: it names each skill aloud as it uses it, working through its whole kit
+follow ProbeBM 45
+stop
+# Teardown (not recorded): sign off, dissolve the two-person party.
+signoff ProbeBM
+say !leaveparty
+party {me} 0
