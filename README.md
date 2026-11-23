@@ -72,4 +72,8 @@ ffmpeg is needed for recording and clip work (`winget install Gyan.FFmpeg`).
 ## Notes
 
 - The cua-perception detector (OmniParser) is AGPL-3.0: fine for local use, do not host it as a service.
-- No licence file is included yet; add one before publishing.
+## Licence
+
+`appdrive/`, `harness/` and `tests/` are under the MIT licence ([LICENSE](LICENSE)). `examples/botstory/` is under
+the GNU Affero General Public License v3.0 ([examples/botstory/LICENSE](examples/botstory/LICENSE)), like the BotStory
+server it was written for.

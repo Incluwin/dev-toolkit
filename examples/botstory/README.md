@@ -20,6 +20,9 @@ Character and account names in the scripts are placeholders (`TestGm`, `TestFrie
 `testaccount1`): replace them with your own. Real accounts go in `*.local.txt` files, which are git-ignored
 (`tools/cua/test-account.example.txt` shows the format).
 
+Licence: GNU AGPL v3.0 ([LICENSE](LICENSE)), like the BotStory server these scripts were written for. The rest of
+the kit is MIT.
+
 ## What each piece shows
 
 | File | Pattern |

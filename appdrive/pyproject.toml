@@ -3,6 +3,7 @@ name = "appdrive"
 version = "0.1.0"
 description = "Drive a Windows app window through cua-driver: capture, OCR, input, takes, recording, model playtests"
 requires-python = ">=3.11"
+license = "MIT"
 dependencies = ["cua-driver>=0.30", "pillow"]
 
 [project.optional-dependencies]
