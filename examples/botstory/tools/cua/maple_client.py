@@ -40,6 +40,8 @@ import time
 import urllib.request
 from pathlib import Path
 
+from PIL import ImageGrab
+
 try:
     import appdrive
 except ImportError:  # running from the kit without `pip install -e appdrive`
@@ -70,7 +72,10 @@ CHAT_TO_ALL_PIXEL = (40, 850)
 # The typing field right of the "To All" box. With the chat bar pinned open the box is always drawn, so an open
 # input shows only by what is in the field: its caret (x 83, blinking) or typed text.
 CHAT_FIELD_BOX = (81, 851, 500, 860)
-CHAT_CARET_WATCH_S = 1.3  # longer than one caret blink
+# The caret blinks 0.3 s on, 0.3 s off. A cua capture takes about 1 s (a 4 MB PNG), so captures alias with the blink
+# and can all land on the off phase; the watch reads just this strip from the screen instead (about 60 ms a sample).
+CHAT_STRIP = (30, 845, 500, 862)
+CHAT_CARET_WATCH_S = 0.8
 GM_QUEUE = SERVER / "logs" / "gm-command-queue.txt"
 SERVER_LOG = SERVER / "logs" / "cosmic-log.log"
 # Character select: known sprite click points (same 800x625 capture) can be listed as name=x,y pairs in
@@ -104,23 +109,38 @@ def maple_config() -> AppConfig:
 
 
 class Maple(AppWindow):
+    _capture_scale: tuple | None = None   # (window width, x scale, y scale) from capture to screen pixels
+
     def in_game(self) -> bool:
         return self.bounds["width"] >= IN_GAME_MIN_WIDTH
 
     async def chat_open(self) -> bool:
         """Whether the chat input is taking keys. A collapsed chat bar hides the "To All" box while the input is
-        closed; a pinned bar always draws it, and then only the caret or typed text in the field tells."""
+        closed; a pinned bar always draws it, and then only the caret or typed text in the field tells.
+        Reads the screen, so the client is brought to the front first (every caller is about to send keys anyway)."""
+        await self.focus()
+        if self._capture_scale is None or self._capture_scale[0] != self.bounds["width"]:
+            capture = await self.capture()
+            self._capture_scale = (self.bounds["width"], self.bounds["width"] / capture.width,
+                                   self.bounds["height"] / capture.height)
+        _, sx, sy = self._capture_scale
+        x0, y0, x1, y1 = CHAT_STRIP
+        screen_box = (round(self.bounds["x"] + x0 * sx), round(self.bounds["y"] + y0 * sy),
+                      round(self.bounds["x"] + x1 * sx), round(self.bounds["y"] + y1 * sy))
+        to_all = (round((CHAT_TO_ALL_PIXEL[0] - x0) * sx), round((CHAT_TO_ALL_PIXEL[1] - y0) * sy))
+        field = (round((CHAT_FIELD_BOX[0] - x0) * sx), round((CHAT_FIELD_BOX[1] - y0) * sy),
+                 round((CHAT_FIELD_BOX[2] - x0) * sx), round((CHAT_FIELD_BOX[3] - y0) * sy))
         deadline = time.monotonic() + CHAT_CARET_WATCH_S
         while True:
-            image = await self.capture()
-            r, _, b = image.getpixel(CHAT_TO_ALL_PIXEL)
+            strip = ImageGrab.grab(screen_box)
+            r, _, b = strip.getpixel(to_all)
             if not (b > 100 and r < 90):
                 return False
-            if image.crop(CHAT_FIELD_BOX).convert("L").getextrema()[0] < 110:
+            if strip.crop(field).convert("L").getextrema()[0] < 110:
                 return True
             if time.monotonic() > deadline:
                 return False
-            await asyncio.sleep(0.15)
+            await asyncio.sleep(0.05)
 
     async def close_chat(self) -> None:
         """An open chat input (a map change can reopen it) swallows movement keys; an empty Return closes it."""
@@ -129,10 +149,6 @@ class Maple(AppWindow):
             await asyncio.sleep(UI_SETTLE_S)
             if await self.chat_open():
                 raise RuntimeError("chat input would not close")
-
-    async def hold(self, keys: list[str], ms: int) -> None:
-        await self.close_chat()
-        await super().hold(keys, ms)
 
     async def chat(self, text: str, close: bool = True) -> None:
         """close=False for commands that change map: the map load reopens the input at an unpredictable
@@ -310,6 +326,11 @@ def take_runner(maple: Maple, me: str) -> TakeRunner:
       apart <name> <dx> <dy> <s> (within <s> seconds, <name> is at least <dx> or <dy> px from the camera)"""
     runner = TakeRunner(maple, WINDOW_TITLE, SERVER_LOG, me=me)
 
+    @runner.verb("hold")  # replaces the library's: an open chat input would swallow the keys
+    async def _hold(ctx, step):
+        await maple.close_chat()
+        await maple.hold(step.words[:-1], int(step.words[-1]))
+
     @runner.verb("say")
     async def _say(ctx, step):
         await maple.chat(step.rest)
@@ -405,6 +426,7 @@ def take_runner(maple: Maple, me: str) -> TakeRunner:
             await maple.chat("!hide")
             await expect(step.rest, "hidden", False)
         if not positions().get(step.rest, {}).get("darkSight"):
+            await maple.close_chat()
             await maple.hold([DARK_SIGHT_KEY], 80)
         await expect(step.rest, "darkSight", True)
 
@@ -514,8 +536,10 @@ async def dispatch(maple: Maple, args) -> None:
         for _ in range(args.times):
             await maple.key(args.key)
     elif c == "hold":
+        await maple.close_chat()
         await maple.hold(args.keys, args.ms)
     elif c == "press":
+        await maple.close_chat()
         for _ in range(args.times):
             await maple.hold(args.keys, args.ms)
             await asyncio.sleep(UI_SETTLE_S)

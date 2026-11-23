@@ -62,9 +62,12 @@ ffmpeg is needed for recording and clip work (`winget install Gyan.FFmpeg`).
   history untouched).
 - `harness/suite`: the generalised script parses; it has **not** been run since it was generalised
   from the BotStory original.
-- `examples/botstory`: entry points load and report missing configuration; they have **not** been run
-  against the game since being moved onto the library. The originals they were derived from are in
-  daily use.
+- `examples/botstory/tools/cua`: run against the live game on 2026-11-23: login from an account file with
+  the character found by OCR, GM command, chat, key hold and press (positions read back from the
+  server), in-game OCR, a recorded take, trim + caption, the clip audit, and a playtest dry run.
+  Not run: `follow`, the bot showcase takes, `clicktext` and `dialog` in game.
+- `examples/botstory/tools/checks` and `tools/release`: the check plugin registers and the scripts parse;
+  they have **not** been run against a check stack since being moved onto the generic runner.
 
 ## Notes
 

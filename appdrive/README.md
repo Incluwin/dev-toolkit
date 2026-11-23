@@ -84,6 +84,8 @@ Built-in steps: `wait key type hold click clicktext shot park record stop cut ca
 - Windows refuses to switch foreground unless your process sent the last input: an Alt tap lifts the lock.
 - An app that is still loading stops pumping messages; input sent then gets a "(Not Responding)" ghost.
 - Capture before each pixel input: the driver grounds clicks on the latest capture of that window.
+- A capture of a large window takes about 1 s (a multi-megabyte PNG). Never poll a blinking or
+  short-lived cue with captures: they alias with it. Read a small screen strip instead (`ImageGrab`).
 - OCR: the detector downsamples past ~1280 px and small fonts vanish. Crop at native resolution;
   upscaling adds nothing. Parses are serial (~3 s each, cold worker), so stack crops into one mosaic.
 - Clicking by text is only safe when exactly one region matches; otherwise fail and list what was found.

@@ -39,8 +39,13 @@ Character and account names in the scripts are placeholders (`TestGm`, `TestFrie
 
 ## Status
 
-These files were moved onto the `appdrive` library and the generic check runner for this kit. Their
-entry points load and the check plugin registers, but they have not been run against the game in this
-form. `skill/maple-client/SKILL.md` and `tools/checks/README.md` are copied from the project and describe
+These files were moved onto the `appdrive` library and the generic check runner for this kit.
+`tools/cua` was run against the live game in this form (login, GM command, chat, hold, OCR, a recorded
+take, trim, audit, playtest dry run). The check-stack scripts, the check plugin and the release smoke
+test have not been run in this form; the plugin registers and the scripts parse.
+
+One thing differs from the project's own copy: `chat_open` reads the chat strip from the screen instead
+of taking cua captures. A capture takes about 1 s, which aliases with the 0.6 s caret blink, so the
+capture-based watch misread an open input about one time in three. `skill/maple-client/SKILL.md` and `tools/checks/README.md` are copied from the project and describe
 the original single-file layout (`tools/cua/.venv`, `tools/checks/check.py`), plus project plan references
 that mean nothing outside it.
