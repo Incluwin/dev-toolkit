@@ -44,9 +44,8 @@ These files were moved onto the `appdrive` library and the generic check runner 
 take, trim, audit, playtest dry run). The check-stack scripts, the check plugin and the release smoke
 test have not been run in this form; the plugin registers and the scripts parse.
 
-One thing differs from the project's own copy: `chat_open` reads the chat strip from the screen instead
-of taking cua captures. A capture takes about 1 s, which aliases with the 0.6 s caret blink, so the
-capture-based watch sometimes misread an open input as closed (it failed two take runs in a row here).
+`chat_open` reads the chat strip from the screen rather than taking cua captures: a capture takes about 1 s,
+which aliases with the 0.6 s caret blink, so a capture-based watch can read an open input as closed.
 
 `skill/maple-client/SKILL.md` and `tools/checks/README.md` are copied from the project and describe
 the original single-file layout (`tools/cua/.venv`, `tools/checks/check.py`), plus project plan references

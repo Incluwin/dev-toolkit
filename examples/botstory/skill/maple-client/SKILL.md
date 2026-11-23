@@ -134,8 +134,13 @@ Verify outcomes on the server, not from transport success:
   a collapsed chat bar the "To All" box pixel (40,850) is dark blue only while the input
   is open; with the bar pinned open (the small button right of the field) the box is
   always drawn, so the tool then looks for the caret or typed text in the field
-  (81-500, 851-860) for 1.3 s. The old box-only check read a pinned bar as always open,
+  (81-500, 851-860). The old box-only check read a pinned bar as always open,
   which made `chat`, `hold` and `close_chat` fail with "chat input would not close".
+  Since 2026-11-23 the check reads that strip from the screen (`ImageGrab`, about 60 ms a
+  sample, for 0.8 s) after focusing the client: a cua capture takes about 1 s and the caret
+  blinks 0.3 s on / 0.3 s off, so the old 1.3 s capture watch saw one or two frames and
+  could read an open input as closed ("chat input did not open", worse while recording).
+  Don't poll a blinking or short-lived cue with captures.
 - Escape with nothing open brings up the game menu; a second Escape closes it. Don't use
   Escape to "make sure" a window is closed.
 - A posted `key u` does not reach game hotkeys (DirectInput); `press u` does.
